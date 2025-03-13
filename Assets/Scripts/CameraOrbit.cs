@@ -30,6 +30,14 @@ public class CameraOrbit : MonoBehaviour
         horizontalAngle += horizontalInput * horizontalSpeed * Time.deltaTime;
         verticalAngle -= verticalInput * verticalSpeed * Time.deltaTime;
 
+        // 右键拖拽视角移动
+        if (Input.GetMouseButton(1)) // 右键按下
+        {
+            horizontalAngle += Input.GetAxis("Mouse X") * 30 * horizontalSpeed * Time.deltaTime;
+            verticalAngle -= Input.GetAxis("Mouse Y") * 30 * verticalSpeed * Time.deltaTime;
+        }
+
+
         // 限制竖直方向的角度
         verticalAngle = Mathf.Clamp(verticalAngle, -90.0f, 90.0f);
 
