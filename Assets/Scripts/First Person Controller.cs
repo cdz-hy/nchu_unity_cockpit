@@ -97,7 +97,7 @@ public class FirstPersonController : MonoBehaviour
     {
         rotationX = eulerAngles.y;
         rotationY = eulerAngles.x;
-        Debug.Log(gameObject.name + rotationY);
+        // Debug.Log(gameObject.name + rotationY);
         camera.fieldOfView = 60.0f;
     }
 }
