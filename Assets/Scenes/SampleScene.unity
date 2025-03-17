@@ -711,7 +711,7 @@ GameObject:
   - component: {fileID: 187415372}
   - component: {fileID: 187415371}
   m_Layer: 0
-  m_Name: FrontWheelRoot
+  m_Name: Front landing gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1137,7 +1137,7 @@ Transform:
   m_GameObject: {fileID: 378287921}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00017026838, y: 0.0031326006, z: 0.0014219444, w: 0.9999941}
-  m_LocalPosition: {x: 0.000224, y: 0.00326, z: -0.000079}
+  m_LocalPosition: {x: 0.00022, y: 0.00326, z: -0.00094}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2400,7 +2400,7 @@ Transform:
   - {fileID: 1238590343}
   - {fileID: 2141593783}
   - {fileID: 378287922}
-  m_Father: {fileID: 1733916649}
+  m_Father: {fileID: 1429867992}
   m_LocalEulerAnglesHint: {x: 1, y: 5, z: 0}
 --- !u!114 &911655257
 MonoBehaviour:
@@ -4177,7 +4177,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1429867992}
   m_Layer: 0
-  m_Name: LandingGear
+  m_Name: Main landing gear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4200,6 +4200,7 @@ Transform:
   - {fileID: 1685372183}
   - {fileID: 1733916649}
   - {fileID: 134094509}
+  - {fileID: 911655256}
   m_Father: {fileID: 1850539648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1436365851
@@ -5278,7 +5279,6 @@ Transform:
   m_Children:
   - {fileID: 135530895}
   - {fileID: 882237164}
-  - {fileID: 911655256}
   m_Father: {fileID: 1429867992}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1765123111
@@ -5483,6 +5483,8 @@ Transform:
   - {fileID: 832312712}
   - {fileID: 914047794}
   - {fileID: 2039428728}
+  - {fileID: 1991842616}
+  - {fileID: 1864756135474659829}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1883868568
@@ -5732,12 +5734,12 @@ Transform:
   m_GameObject: {fileID: 1991842615}
   serializedVersion: 2
   m_LocalRotation: {x: 0.11057606, y: 0.1998128, z: -0.012480336, w: 0.97349477}
-  m_LocalPosition: {x: 0.8255948, y: 0.1659674, z: 2.069124}
+  m_LocalPosition: {x: 0.8255948, y: 0.1659674, z: -18.000875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 539898258181781221}
-  m_Father: {fileID: 543450652161267158}
+  m_Father: {fileID: 1850539648}
   m_LocalEulerAnglesHint: {x: 12.725, y: 23.328, z: 1.168}
 --- !u!1 &2004076048
 GameObject:
@@ -8318,7 +8320,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1991842616}
   - {fileID: 1883868569}
   - {fileID: 6658214597560420352}
   - {fileID: 3323469057050416922}
@@ -8707,7 +8708,6 @@ Transform:
   - {fileID: 7360787295690337031}
   - {fileID: 4740823506002635343}
   - {fileID: 2367190897525752748}
-  - {fileID: 1864756135474659829}
   m_Father: {fileID: 1850539648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &550877072220915114
@@ -11373,6 +11373,7 @@ GameObject:
   - component: {fileID: 2600426349471924043}
   - component: {fileID: 1634915544125726693}
   - component: {fileID: 3811292767775994983}
+  - component: {fileID: 3811292767775994984}
   m_Layer: 0
   m_Name: obj5.004
   m_TagString: Untagged
@@ -14079,13 +14080,13 @@ Transform:
   m_GameObject: {fileID: 7921906598557827405}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000081460335, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.5082766, y: -0.45857772, z: 2.1720486}
+  m_LocalPosition: {x: 0.5082766, y: -0.45857772, z: -17.897951}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3811292767775994982}
   - {fileID: 6440127992106882835}
-  m_Father: {fileID: 543450652161267158}
+  m_Father: {fileID: 1850539648}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &1869007884201998091
 MeshRenderer:
@@ -20852,10 +20853,32 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.003407, y: 0.002059, z: 0.001103}
   m_Center: {x: -0.0000004999456, y: -0.00023950069, z: 0.00025050744}
+--- !u!64 &3811292767775994984
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180497252275549769}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6004164093983377151, guid: 8dd849e5e93fa8a458384f6c006d0ba0, type: 3}
 --- !u!1 &3812420889200649563
 GameObject:
   m_ObjectHideFlags: 0
@@ -35416,7 +35439,7 @@ GameObject:
   - component: {fileID: 6829696806473981664}
   - component: {fileID: 7921906598557827406}
   m_Layer: 0
-  m_Name: obj3.004
+  m_Name: Joystick
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35438,8 +35461,8 @@ MonoBehaviour:
   steeringWheel2: {fileID: 6440127992106882835}
   rotatingObject: {fileID: 1991842616}
   pilotCamera: {fileID: 1404041103}
-  meshCollider: {fileID: 0}
-  stickRotationSpeed: 0.5
+  meshCollider: {fileID: 3811292767775994984}
+  stickRotationSpeed: 0.1
   wheelRotationSpeed: 0.5
   maxStickAngle: 10
   maxWheelAngle: 110

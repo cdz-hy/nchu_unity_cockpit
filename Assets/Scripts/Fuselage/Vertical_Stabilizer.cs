@@ -110,10 +110,6 @@ public class Vertical_Stabilizer : MonoBehaviour
 
         // 更新前一帧的鼠标X位置
         previousMouseX = mousePos.x;
-
-        // Debug绘制屏幕分区线（仅在Scene视图中可见）
-        Debug.DrawLine(Camera.main.ScreenToWorldPoint(new Vector3(screenWidth/2, 0, 10)), 
-                      Camera.main.ScreenToWorldPoint(new Vector3(screenWidth/2, screenHeight, 10)), Color.red);
     }
 }
 

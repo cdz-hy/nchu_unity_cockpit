@@ -87,11 +87,5 @@ public class Horizontal_Stabilizer2_part : MonoBehaviour
 
         // 更新前一帧的鼠标Y位置
         previousMouseY = mousePos.y;
-
-        // Debug绘制屏幕分区线（仅在Scene视图中可见）
-        Debug.DrawLine(Camera.main.ScreenToWorldPoint(new Vector3(screenWidth/2, 0, 10)), 
-                      Camera.main.ScreenToWorldPoint(new Vector3(screenWidth/2, screenHeight, 10)), Color.red);
-        Debug.DrawLine(Camera.main.ScreenToWorldPoint(new Vector3(0, screenHeight/2, 10)), 
-                      Camera.main.ScreenToWorldPoint(new Vector3(screenWidth, screenHeight/2, 10)), Color.red);
     }
 }
