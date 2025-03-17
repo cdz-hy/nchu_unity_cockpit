@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class obj8_002 : MonoBehaviour
+public class Horizontal_Stabilizer2_part : MonoBehaviour
 {
     private float screenHeight;
     private float screenWidth;
