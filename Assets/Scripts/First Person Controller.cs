@@ -64,33 +64,33 @@ public class FirstPersonController : MonoBehaviour
             rotationY = Mathf.Clamp(rotationY, -90, 90); // 限制旋转角
 
             transform.localRotation = Quaternion.Euler(rotationY, rotationX, 0);
-
-            // 检测鼠标滚轮输入
-            float scrollInput = Input.GetAxis("Mouse ScrollWheel");
-            if (scrollInput != 0)
-            {
-                // 根据滚轮输入调整焦距
-                camera.fieldOfView -= scrollInput * zoomSpeed; // 使用 fieldOfView 来实现缩放
-                camera.fieldOfView = Mathf.Clamp(camera.fieldOfView, minFocalLength, maxFocalLength); // 限制焦距范围
-            }
-
-            // 移动
-            float moveForward = Input.GetAxis("Vertical") * speed * Time.deltaTime;
-            float moveSide = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
-            float moveVertical = 0;
-
-            if (Input.GetKey(KeyCode.Space))
-            {
-                moveVertical = verticalSpeed * Time.deltaTime;
-            }
-            else if (Input.GetKey(KeyCode.LeftShift))
-            {
-                moveVertical = -verticalSpeed * Time.deltaTime;
-            }
-
-            Vector3 move = transform.right * moveSide + transform.forward * moveForward + transform.up * moveVertical;
-            transform.position += move;
         }
+
+        // 检测鼠标滚轮输入
+        float scrollInput = Input.GetAxis("Mouse ScrollWheel");
+        if (scrollInput != 0)
+        {
+            // 根据滚轮输入调整焦距
+            camera.fieldOfView -= scrollInput * zoomSpeed; // 使用 fieldOfView 来实现缩放
+            camera.fieldOfView = Mathf.Clamp(camera.fieldOfView, minFocalLength, maxFocalLength); // 限制焦距范围
+        }
+
+        // 移动
+        float moveForward = Input.GetAxis("Vertical") * speed * Time.deltaTime;
+        float moveSide = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+        float moveVertical = 0;
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            moveVertical = verticalSpeed * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.LeftShift))
+        {
+            moveVertical = -verticalSpeed * Time.deltaTime;
+        }
+
+        Vector3 move = transform.right * moveSide + transform.forward * moveForward + transform.up * moveVertical;
+        transform.position += move;
     }
 
     public void Reset()
