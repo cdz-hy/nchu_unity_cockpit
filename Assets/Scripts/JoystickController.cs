@@ -19,7 +19,7 @@ public class JoystickController : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (GetActiveCamera() == pilotCamera && Input.GetMouseButtonDown(0))
         {
             Ray ray = pilotCamera.ScreenPointToRay(Input.mousePosition);
             if (meshCollider.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
@@ -29,7 +29,7 @@ public class JoystickController : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
+        if (GetActiveCamera() == pilotCamera && Input.GetMouseButtonUp(0))
         {
             isDragging = false;
         }
@@ -54,5 +54,17 @@ public class JoystickController : MonoBehaviour
             // 使用 RotateTowards 限制最大旋转速度
             rotatingObject.localRotation = Quaternion.RotateTowards(rotatingObject.localRotation, targetRotation, maxRotationSpeed * Time.deltaTime);
         }
+    }
+
+    private Camera GetActiveCamera()
+    {
+        foreach (Camera cam in Camera.allCameras)
+        {
+            if (cam.gameObject.activeInHierarchy)
+            {
+                return cam; // 返回第一个激活的摄像机
+            }
+        }
+        return null; // 如果没有激活的摄像机，返回 null
     }
 }

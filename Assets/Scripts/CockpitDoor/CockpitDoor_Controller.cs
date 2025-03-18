@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CockpitDoor_Controller : MonoBehaviour
 {
-    public float targetRotationY = 80.463f;  // 目标Y旋转角度（门打开的位置）
+    public float targetRotationY = 0f;  // 目标Y旋转角度（门关闭的位置）
     public float rotationSpeed = 50f;  // 旋转速度
     private bool shouldRotate = false;  // 控制是否开始旋转
 
-    private BoxCollider boxCollider;  // 物体的BoxCollider
+    private BoxCollider[] boxColliders;  // 物体的BoxCollider
 
     public Texture2D handCursor;    // 如果你要使用自定义光标
     public Texture2D clickCursor;   // 点击时的光标
@@ -17,7 +17,7 @@ public class CockpitDoor_Controller : MonoBehaviour
     void Start()
     {
         // 获取物体的BoxCollider组件
-        boxCollider = GetComponent<BoxCollider>();
+        boxColliders = GetComponents<BoxCollider>();
 
         // 确保光标是可见的
         Cursor.visible = true;
@@ -41,6 +41,13 @@ public class CockpitDoor_Controller : MonoBehaviour
 
         // 开始旋转
         shouldRotate = true;
+
+        Cursor.SetCursor(clickCursor, Vector2.zero, CursorMode.Auto);  // 使用点击时的光标
+    }
+
+    void OnMouseUp()
+    {
+        Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
     }
 
     void Update()
@@ -49,22 +56,6 @@ public class CockpitDoor_Controller : MonoBehaviour
         if (shouldRotate)
         {
             RotateSmoothly();
-        }
-
-        // 检测鼠标左键按下状态，改变光标为点击状态
-        if (Input.GetMouseButton(0)) // 如果左键按下
-        {
-            Cursor.SetCursor(clickCursor, Vector2.zero, CursorMode.Auto);  // 使用点击时的光标
-        }
-
-        // 检测鼠标左键松开，恢复光标
-        if (Input.GetMouseButtonUp(0)) // 如果左键松开
-        {
-            // 如果鼠标未在BoxCollider区域内，恢复默认光标
-            if (!IsMouseOverBoxCollider())
-            {
-                Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
-            }
         }
     }
 
@@ -108,12 +99,28 @@ public class CockpitDoor_Controller : MonoBehaviour
     // 检查鼠标是否在BoxCollider区域内
     private bool IsMouseOverBoxCollider()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = GetActiveCamera().ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
-        if (boxCollider.Raycast(ray, out hit, Mathf.Infinity))
+        foreach (var boxCollider in boxColliders) 
         {
-            return true;  // 鼠标在BoxCollider区域内
+            if (boxCollider.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                return true;  // 鼠标在BoxCollider区域内
+            }
+            return false;  // 鼠标不在BoxCollider区域内
         }
-        return false;  // 鼠标不在BoxCollider区域内
+        return false;
+    }
+
+    private Camera GetActiveCamera()
+    {
+        foreach (Camera cam in Camera.allCameras)
+        {
+            if (cam.gameObject.activeInHierarchy)
+            {
+                return cam; // 返回第一个激活的摄像机
+            }
+        }
+        return null; // 如果没有激活的摄像机，返回 null
     }
 }

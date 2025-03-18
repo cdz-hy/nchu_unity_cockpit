@@ -27,8 +27,7 @@ public class doorR1code : MonoBehaviour
         // 确保光标是可见的  
         Cursor.visible = true;
 
-        // 初始设置默认光标  
-        Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+        colliders = GetComponentsInChildren<BoxCollider>();
 
         // 自动赋值为当前物体的 Transform  
         initialPosition = transform.localPosition;
@@ -64,20 +63,52 @@ public class doorR1code : MonoBehaviour
 
         // 处理鼠标交互  
         HandleMouseInteraction();
-
-        // 更新光标状态  
-        UpdateCursor();
     }
 
     // 处理鼠标交互的逻辑  
     private void HandleMouseInteraction()
     {
+        // 创建射线
+        Ray ray = GetActiveCamera().ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        // 检测鼠标是否在子物体的碰撞箱上
+        bool mouseOver = false;
+
+        foreach (var collider in colliders)
+        {
+            if (collider.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                mouseOver = true;
+                // 如果鼠标进入子物体的碰撞箱
+                if (!collider.gameObject.GetComponent<CursorChange>().isMouseOver)
+                {
+                    collider.gameObject.GetComponent<CursorChange>().isMouseOver = true;
+                    collider.gameObject.SendMessage("OnMouseEnter");
+                }
+                break; // 找到一个碰撞箱后可以退出循环
+            }
+        }
+
+        // 如果鼠标不在任何子物体的碰撞箱上
+        if (!mouseOver)
+        {
+            foreach (var collider in colliders)
+            {
+                if (collider.gameObject.GetComponent<CursorChange>().isMouseOver)
+                {
+                    collider.gameObject.GetComponent<CursorChange>().isMouseOver = false;
+                    collider.gameObject.SendMessage("OnMouseExit");
+                }
+            }
+        }
+
         // 检测鼠标左键按下状态，改变光标为点击状态  
-        if (Input.GetMouseButton(0)) // 如果左键按下  
+        if (Input.GetMouseButton(0) && IsMouseOverAnyBoxCollider()) // 如果左键按下  
         {
             Cursor.SetCursor(clickCursor, Vector2.zero, CursorMode.Auto);  // 使用点击时的光标  
         }
-        else if (!IsMouseOverAnyBoxCollider()) // 如果鼠标未在BoxCollider区域内，恢复默认光标  
+        else if (Input.GetMouseButtonUp(0)) // 如果鼠标未在BoxCollider区域内，恢复默认光标  
         {
             Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
         }
@@ -86,22 +117,20 @@ public class doorR1code : MonoBehaviour
     // 检查鼠标是否在任何BoxCollider区域内  
     private bool IsMouseOverAnyBoxCollider()
     {
-        foreach (var collider in colliders)
+        foreach (BoxCollider collider in colliders)
         {
             if (IsMouseOverBoxCollider(collider))
             {
-                OnMouseEnter();
                 return true; // 鼠标在某个BoxCollider区域内  
             }
         }
-        OnMouseExit();
         return false; // 鼠标不在任何BoxCollider区域内  
     }
 
     // 检查鼠标是否在BoxCollider区域内  
     private bool IsMouseOverBoxCollider(BoxCollider boxCollider)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = GetActiveCamera().ScreenPointToRay(Input.mousePosition);
         return boxCollider.Raycast(ray, out _, Mathf.Infinity); // 检查鼠标是否在BoxCollider区域内  
     }
 
@@ -181,41 +210,15 @@ public class doorR1code : MonoBehaviour
         transform.localRotation = targetRot;
     }
 
-    // 当鼠标进入BoxCollider区域时，改变鼠标光标为手形  
-    void OnMouseEnter()
+    private Camera GetActiveCamera()
     {
-        if (!Input.GetMouseButton(0)) // 如果鼠标进入BoxCollider区域，且没有按下左键，显示手形光标  
+        foreach (Camera cam in Camera.allCameras)
         {
-            Cursor.SetCursor(handCursor, Vector2.zero, CursorMode.Auto);
-        }
-    }
-
-    // 当鼠标离开BoxCollider区域时，恢复默认光标  
-    void OnMouseExit()
-    {
-        if (!Input.GetMouseButton(0)) // 如果没有按下左键，恢复默认光标  
-        {
-            Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
-        }
-    }
-
-    // 更新光标状态  
-    private void UpdateCursor()
-    {
-        if (IsMouseOverAnyBoxCollider())
-        {
-            if (Input.GetMouseButton(0)) // 如果左键按下  
+            if (cam.gameObject.activeInHierarchy)
             {
-                Cursor.SetCursor(clickCursor, Vector2.zero, CursorMode.Auto); // 使用点击时的光标  
-            }
-            else
-            {
-                Cursor.SetCursor(handCursor, Vector2.zero, CursorMode.Auto); // 使用手形光标  
+                return cam; // 返回第一个激活的摄像机
             }
         }
-        else
-        {
-            Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto); // 恢复默认光标  
-        }
+        return null; // 如果没有激活的摄像机，返回 null
     }
 }
