@@ -19,10 +19,10 @@ public class Horizontal_Stabilizer1_part : MonoBehaviour
     private const float MIDDLE_ZONE = 50f;
 
     // 旋转速度系数（值越小旋转越慢）
-    private const float ROTATION_SPEED = 0.05f;
+    private const float ROTATION_SPEED = 0.3f;
 
     // 最大旋转速度（每帧最大旋转角度）
-    private const float MAX_ROTATION_SPEED = 0.09f;
+    private const float MAX_ROTATION_SPEED = 0.5f;
 
     // Start is called before the first frame update
     void Start()
