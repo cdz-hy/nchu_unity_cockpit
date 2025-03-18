@@ -68,16 +68,12 @@ public class doorR1code : MonoBehaviour
     // 处理鼠标交互的逻辑  
     private void HandleMouseInteraction()
     {
-        // 创建射线
-        Ray ray = GetActiveCamera().ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
         // 检测鼠标是否在子物体的碰撞箱上
         bool mouseOver = false;
 
         foreach (var collider in colliders)
         {
-            if (collider.Raycast(ray, out hit, Mathf.Infinity))
+            if (IsMouseOverBoxCollider(collider))
             {
                 mouseOver = true;
                 // 如果鼠标进入子物体的碰撞箱

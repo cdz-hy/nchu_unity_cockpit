@@ -14885,8 +14885,8 @@ GameObject:
   - component: {fileID: 3811292767775994982}
   - component: {fileID: 2600426349471924043}
   - component: {fileID: 1634915544125726693}
-  - component: {fileID: 3811292767775994983}
   - component: {fileID: 3811292767775994984}
+  - component: {fileID: 3811292767775994985}
   m_Layer: 0
   m_Name: obj5.004
   m_TagString: Untagged
@@ -23614,27 +23614,6 @@ Transform:
   - {fileID: 8203462823355273400}
   m_Father: {fileID: 1864756135474659829}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &3811292767775994983
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1180497252275549769}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 3
-  m_Size: {x: 0.003407, y: 0.002059, z: 0.001103}
-  m_Center: {x: -0.0000004999456, y: -0.00023950069, z: 0.00025050744}
 --- !u!64 &3811292767775994984
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -23657,6 +23636,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -6004164093983377151, guid: 8dd849e5e93fa8a458384f6c006d0ba0, type: 3}
+--- !u!114 &3811292767775994985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180497252275549769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a65d12fe56c97547b0b5d711dea898f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMouseOver: 0
+  handCursor: {fileID: 2800000, guid: 3ad3780caa44e9a4aabbc6c36447f3fa, type: 3}
+  clickCursor: {fileID: 2800000, guid: 3ad3780caa44e9a4aabbc6c36447f3fa, type: 3}
+  defaultCursor: {fileID: 2800000, guid: a8dfca47771772a4c9c01ec547341466, type: 3}
 --- !u!1 &3812420889200649563
 GameObject:
   m_ObjectHideFlags: 0
@@ -36741,6 +36736,10 @@ MonoBehaviour:
   maxWheelAngle: 110
   maxObjectRotationAngle: 90
   maxRotationSpeed: 40
+  colliders: []
+  handCursor: {fileID: 2800000, guid: 3ad3780caa44e9a4aabbc6c36447f3fa, type: 3}
+  clickCursor: {fileID: 2800000, guid: 3ad3780caa44e9a4aabbc6c36447f3fa, type: 3}
+  defaultCursor: {fileID: 2800000, guid: a8dfca47771772a4c9c01ec547341466, type: 3}
 --- !u!1 &7922496054621709565
 GameObject:
   m_ObjectHideFlags: 0
