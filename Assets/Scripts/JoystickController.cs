@@ -36,13 +36,18 @@ public class JoystickController : MonoBehaviour
             {
                 isDragging = true; // 直接设置为拖动状态
                 initialMousePosition = Input.mousePosition; // 记录初始鼠标位置
+                Cursor.SetCursor(clickCursor, Vector2.zero, CursorMode.Auto);  // 使用点击时的光标 
             }
-            Cursor.SetCursor(clickCursor, Vector2.zero, CursorMode.Auto);  // 使用点击时的光标 
+            
         }
 
         if (GetActiveCamera() == pilotCamera && Input.GetMouseButtonUp(0))
         {
-            Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+            Ray ray = pilotCamera.ScreenPointToRay(Input.mousePosition);
+            if (meshCollider.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+            {
+                Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);  // 使用点击时的光标 
+            }
             isDragging = false;
         }
 

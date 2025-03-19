@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class rightwheel_4 : MonoBehaviour
+public class RightWheel_4 : MonoBehaviour
 {
-    private int isKeyPressed = 1;
+    public int isKeyPressed = 1;
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -13,13 +13,6 @@ public class rightwheel_4 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.KeypadMultiply))
-        {
-            if (isKeyPressed == 1)
-                isKeyPressed = 2;
-            else if (isKeyPressed == 2)
-                isKeyPressed = 1;
-        }
         if (isKeyPressed == 2)
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, 325), 3f * Time.deltaTime);
         if (isKeyPressed == 1)

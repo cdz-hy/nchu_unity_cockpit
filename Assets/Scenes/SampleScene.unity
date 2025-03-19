@@ -774,6 +774,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4aa04d45204a4a6459422746e1f1f023, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKeyPressed: 1
 --- !u!23 &134094511
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -835,7 +836,9 @@ GameObject:
   - component: {fileID: 135530895}
   - component: {fileID: 135530898}
   - component: {fileID: 135530897}
+  - component: {fileID: 135530900}
   - component: {fileID: 135530896}
+  - component: {fileID: 135530899}
   m_Layer: 0
   m_Name: Landing gear controller
   m_TagString: Untagged
@@ -870,6 +873,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 762db6709c9965541bf0711d0f69beb8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKeyPressed: 1
+  gear_2: {fileID: 882237165}
+  retractFrontWheels: {fileID: 1268728191}
+  leftBoard: {fileID: 8637407833423125937}
+  rightBoard: {fileID: 7547153446572543888}
+  frontWheel_2: {fileID: 1264705146}
+  leftWheel_1: {fileID: 134094510}
+  leftWheel_2: {fileID: 1685372184}
+  leftWheel_3: {fileID: 491146811}
+  leftWheel_4: {fileID: 1129846977}
+  rightWheel_1: {fileID: 911655257}
+  rightWheel_2: {fileID: 514003932}
+  rightWheel_3: {fileID: 1240302119}
+  rightWheel_4: {fileID: 1043275632}
+  handCursor: {fileID: 2800000, guid: b8ab8ec880420bc4ea0358861a0aad7f, type: 3}
+  clickCursor: {fileID: 2800000, guid: 4f7a268dfd2bd264a9f69a731ca68796, type: 3}
+  defaultCursor: {fileID: 2800000, guid: a8dfca47771772a4c9c01ec547341466, type: 3}
 --- !u!23 &135530897
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -920,6 +940,44 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 135530894}
   m_Mesh: {fileID: 8501546317762234371, guid: 49ff8069aef5d534888a114a44e74295, type: 3}
+--- !u!64 &135530899
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135530894}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 8501546317762234371, guid: 49ff8069aef5d534888a114a44e74295, type: 3}
+--- !u!114 &135530900
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 135530894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a65d12fe56c97547b0b5d711dea898f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMouseOver: 0
+  handCursor: {fileID: 2800000, guid: b8ab8ec880420bc4ea0358861a0aad7f, type: 3}
+  clickCursor: {fileID: 2800000, guid: 4f7a268dfd2bd264a9f69a731ca68796, type: 3}
+  defaultCursor: {fileID: 2800000, guid: a8dfca47771772a4c9c01ec547341466, type: 3}
 --- !u!1 &152122431
 GameObject:
   m_ObjectHideFlags: 0
@@ -2236,6 +2294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c68c07e6f17440f408947c347b64291e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKeyPressed: 1
 --- !u!23 &491146812
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2478,6 +2537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 175a4bb73670cce4f8df381d5a172e73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKeyPressed: 1
 --- !u!23 &514003933
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3997,6 +4057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 153d7f88ae3273941bd5efac32eb5675, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKeyPressed: 1
 --- !u!23 &882237166
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4305,6 +4366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fe355707116b3f42801435bd1752fbf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKeyPressed: 1
 --- !u!23 &911655258
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5142,6 +5204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63f089b22674b0b43bdfa7656bdb492e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKeyPressed: 1
 --- !u!23 &1043275633
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -5562,6 +5625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f57c936085d6dd449058bc4799004ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKeyPressed: 1
 --- !u!23 &1129846978
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6099,6 +6163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02267ffc19580cc4cb28e2bd74034e79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKeyPressed: 1
 --- !u!23 &1240302120
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6279,6 +6344,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 487775bd98a0721448eff7f14a2f5f1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKeyPressed: 1
 --- !u!23 &1264705147
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -6376,6 +6442,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0d3db001e6f0294891c9fb7cc5eaacb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKeyPressed: 1
 --- !u!23 &1268728192
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -8041,6 +8108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6376c6b8b36db70429a6015963003ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isKeyPressed: 1
 --- !u!23 &1685372185
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -25464,13 +25532,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7663908242271071882}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000003774895, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.003789287, y: 0.07956113, z: -0.61586726, w: 0.78381324}
   m_LocalPosition: {x: -1.6234802, y: -0.062862635, z: 8.203125}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 914047794}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 5.966, y: 6.933, z: -75.954}
 --- !u!33 &4323899111419202786
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -30338,13 +30406,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181142975095537849}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.00000003774895, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.0029856975, y: -0.08003589, z: 0.62423694, w: 0.7771188}
   m_LocalPosition: {x: -0.7465925, y: -0.1672337, z: 9.115465}
   m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 914047794}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 6.002, y: -6.969, z: 77.182}
 --- !u!33 &5948083233674323033
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -35470,7 +35538,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f6d22f584b807b48839458840e1ba4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 0.05
+  rotationSpeed: 20
+  isKeyPressed: 1
 --- !u!4 &7552117481771455615
 Transform:
   m_ObjectHideFlags: 0
@@ -39386,7 +39455,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b1b9e31ef6592a418a819aa32acec64, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 0.05
+  rotationSpeed: 20
+  isKeyPressed: 1
 --- !u!33 &8642974556005373477
 MeshFilter:
   m_ObjectHideFlags: 0

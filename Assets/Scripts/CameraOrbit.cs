@@ -39,7 +39,7 @@ public class CameraOrbit : MonoBehaviour
 
 
         // 限制竖直方向的角度
-        verticalAngle = Mathf.Clamp(verticalAngle, -90.0f, 90.0f);
+        verticalAngle = Mathf.Clamp(verticalAngle, -89.9f, 89.9f);
 
         // 检测鼠标滚轮输入
         float scrollInput = Input.GetAxis("Mouse ScrollWheel");
