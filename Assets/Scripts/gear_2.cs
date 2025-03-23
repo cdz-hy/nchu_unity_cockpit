@@ -15,8 +15,8 @@ public class Gear_2 : MonoBehaviour
     void Update()
     {
         if (isKeyPressed == 2)
-            transform.position = Vector3.Lerp(transform.position, new Vector3(-0.1667627f, 0.28f, 1.837f), 0.4f/7 + 0.005f);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(0f, -0.000132f, 0.001195f), 0.4f/7 + 0.03f);
         if (isKeyPressed == 1)
-            transform.position = Vector3.Lerp(transform.position, new Vector3(-0.1667627f, 0.36f, 1.806424f), 0.4f/7 + 0.005f);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, new Vector3(0f, 0.0007199239f, 0.0008676908f), 0.4f/7 + 0.03f);
     }
 }

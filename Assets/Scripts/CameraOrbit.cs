@@ -58,8 +58,8 @@ public class CameraOrbit : MonoBehaviour
         );
 
         // 设置摄像头的位置和朝向
-        transform.position = target.position + offset;
-        transform.LookAt(target.position);
+        transform.localPosition = target.localPosition + offset;
+        transform.LookAt(target.localPosition);
     }
 
     public void Reset()

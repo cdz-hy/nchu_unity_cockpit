@@ -33,9 +33,9 @@ public class Gear_1 : MonoBehaviour
     void Update()
     {
         if (isKeyPressed == 2)
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(40, 0, 0), 0.1f);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(40, 0, 0), 0.1f);
         if (isKeyPressed == 1)
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, 0), 0.1f);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, 0), 0.1f);
     }
 
     void OnMouseDown()

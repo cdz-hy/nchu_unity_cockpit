@@ -14,8 +14,8 @@ public class RightWheel_2 : MonoBehaviour
     void Update()
     {
         if (isKeyPressed == 2)
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, 0), Time.deltaTime);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(0, 0, 0), Time.deltaTime);
         if (isKeyPressed == 1)
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(-7, 0, -79), Time.deltaTime);
+            transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(-7, 0, -79), Time.deltaTime);
     }
 }

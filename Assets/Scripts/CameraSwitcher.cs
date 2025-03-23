@@ -37,8 +37,8 @@ public class CameraSwitcher : MonoBehaviour
     {
         // 禁用当前相机并重置其位置和旋转
         cameras[currentCameraIndex].gameObject.SetActive(false);
-        cameras[currentCameraIndex].transform.position = initialPositions[currentCameraIndex];
-        cameras[currentCameraIndex].transform.rotation = initialRotations[currentCameraIndex];
+        cameras[currentCameraIndex].transform.localPosition = initialPositions[currentCameraIndex];
+        cameras[currentCameraIndex].transform.localRotation = initialRotations[currentCameraIndex];
 
         // 重置当前控制器的 rotationX 和 rotationY
         if (controllers[currentCameraIndex] != null)
