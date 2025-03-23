@@ -7,6 +7,10 @@ public class JoystickController : MonoBehaviour
     public Transform rotatingObject; // 配平手轮的 Transform
     public Camera pilotCamera; // 自定义摄像机引用
     public MeshCollider meshCollider; // 获取碰撞箱
+    public float currentStickAngle = 0; // 现在操纵杆的角度
+    public float currentWheelAngle = 0; // 现在方向盘的角度
+    public float stickRotation = 0; // 操纵杆旋转角
+    public float wheelRotation = 0; // 方向盘旋转角
     public float stickRotationSpeed = 0.1f; // 操纵杆旋转速度
     public float wheelRotationSpeed = 0.5f; // 方向盘旋转速度
     public float maxStickAngle = 10f; // 操纵杆最大旋转角度
@@ -49,13 +53,15 @@ public class JoystickController : MonoBehaviour
                 Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);  // 使用点击时的光标 
             }
             isDragging = false;
+            currentStickAngle = stickRotation;
+            currentWheelAngle = wheelRotation;
         }
 
         if (isDragging)
         {
             Vector3 mouseDelta = Input.mousePosition - initialMousePosition;
-            float stickRotation = Mathf.Clamp(mouseDelta.y * stickRotationSpeed, -maxStickAngle, maxStickAngle);
-            float wheelRotation = Mathf.Clamp(mouseDelta.x * wheelRotationSpeed, -maxWheelAngle, maxWheelAngle);
+            stickRotation = Mathf.Clamp(mouseDelta.y * stickRotationSpeed + currentStickAngle, -maxStickAngle, maxStickAngle);
+            wheelRotation = Mathf.Clamp(mouseDelta.x * wheelRotationSpeed + currentWheelAngle, -maxWheelAngle, maxWheelAngle);
 
             // 旋转操纵杆
             transform.localRotation = Quaternion.Euler(-stickRotation, 0, 0);
