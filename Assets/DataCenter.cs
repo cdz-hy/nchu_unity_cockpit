@@ -59,11 +59,20 @@ public class DataCenter : MonoBehaviour
     public static DataCenter Instance { get; private set; }
 
     // 保存飞机状态数据（可根据实际数据进行扩展）
+
+
+    //====== 飞机外部姿态信息 ======//
     public float pitchAngle { get; private set; }
     public float rollAngle { get; private set; }
     public float rotationAngle { get; private set; }
     public float altitude { get; private set; }
     public float airSpeed { get; private set; }
+
+
+    //====== 飞机内部操控信息 ======//
+    public float pitchControl { get; private set; }
+    public float rollControl { get; private set; }
+    
 
     void Awake()
     {
@@ -80,6 +89,10 @@ public class DataCenter : MonoBehaviour
     {
         // 订阅数据接收事件
         XPlaneConnectManager.OnDataReceived += HandleData;
+
+        // 订阅操纵杆移动事件
+        JoystickController.joystickControllerRotation += renewController;
+
     }
 
     void OnDestroy()
@@ -102,5 +115,14 @@ public class DataCenter : MonoBehaviour
             }
         }
         Debug.Log(pitchAngle + " " + rollAngle + " " + rotationAngle);
+    }
+
+
+    private void renewController(float[] datas){
+
+        this.pitchControl = datas[0];
+        this.rollControl = datas[1];
+
+        Debug.Log(pitchControl + " " + rollControl + " ");
     }
 }

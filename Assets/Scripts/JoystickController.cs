@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class JoystickController : MonoBehaviour
@@ -25,6 +26,9 @@ public class JoystickController : MonoBehaviour
     public Texture2D handCursor;    // 自定义手型光标  
     public Texture2D clickCursor;   // 点击时的光标  
     public Texture2D defaultCursor; // 默认光标  
+
+    // 定义一个事件，当数据更新时触发
+    public static event Action<float[]> joystickControllerRotation;
 
     void Start()
     {
@@ -76,6 +80,13 @@ public class JoystickController : MonoBehaviour
 
             // 使用 RotateTowards 限制最大旋转速度
             rotatingObject.localRotation = Quaternion.RotateTowards(rotatingObject.localRotation, targetRotation, maxRotationSpeed * Time.deltaTime);
+
+
+            // 触发事件，传递数据数组
+            float[] controllerDatas = { - stickRotation / maxStickAngle, wheelRotation / maxWheelAngle};
+            joystickControllerRotation?.Invoke(controllerDatas);
+
+
         }
     }
 
