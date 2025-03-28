@@ -62,4 +62,9 @@ public class Gear_1 : MonoBehaviour
     {
         Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
     }
+
+    public void VoiceControll()
+    {
+        OnMouseDown();
+    }
 }

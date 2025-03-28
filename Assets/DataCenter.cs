@@ -114,7 +114,7 @@ public class DataCenter : MonoBehaviour
                 break;
             }
         }
-        Debug.Log(pitchAngle + " " + rollAngle + " " + rotationAngle);
+        //Debug.Log(pitchAngle + " " + rollAngle + " " + rotationAngle);
     }
 
 
@@ -123,6 +123,6 @@ public class DataCenter : MonoBehaviour
         this.pitchControl = datas[0];
         this.rollControl = datas[1];
 
-        Debug.Log(pitchControl + " " + rollControl + " ");
+        //Debug.Log(pitchControl + " " + rollControl + " ");
     }
 }
