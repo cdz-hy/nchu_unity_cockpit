@@ -8,6 +8,8 @@ public class FirstPersonController : MonoBehaviour
     public float zoomSpeed = 25.0f; // 缩放速度
     public float minFocalLength = 10.0f; // 最小焦距
     public float maxFocalLength = 60.0f; // 最大焦距
+    public float raycastDistance = 1.0f; // 射线检测距离
+    public bool isCollision = false; // 是否可穿墙
 
     private bool isFixedViewMode = false; // 是否为固定视角模式
     private float lastRightClickTime = 0.0f; // 上次右键点击时间
@@ -90,7 +92,12 @@ public class FirstPersonController : MonoBehaviour
         }
 
         Vector3 move = transform.right * moveSide + transform.forward * moveForward + transform.up * moveVertical;
-        transform.position += move;
+        // 防穿墙检测
+        if (!isCollision || !Physics.Raycast(transform.position, move.normalized, move.magnitude * raycastDistance, LayerMask.GetMask("Wall")))
+        {
+            // 如果没有检测到墙壁，则移动
+            transform.position += move;
+        }
     }
 
     public void Reset()
