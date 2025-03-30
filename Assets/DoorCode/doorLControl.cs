@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorLControl : MonoBehaviour
+public class DoorLControl : MonoBehaviour, VoiceCommand.DoorControll
 {
     public GameObject nob;
+    private doorL1Nob com;
     [Header("Door Movement Settings")]
     [SerializeField] private float openSpeed = 0.8f;          // 舱门运动速度  
     [SerializeField] private float innerPullDistance = 0.1f;  // 向内拉的距离  
@@ -20,7 +21,7 @@ public class DoorLControl : MonoBehaviour
     public BoxCollider[] colliders; // 存储所有Box Collider组件  
     public Texture2D handCursor;    // 自定义手型光标  
     public Texture2D clickCursor;   // 点击时的光标  
-    public Texture2D defaultCursor; // 默认光标  
+    public Texture2D defaultCursor; // 默认光标
 
     void Start()
     {
@@ -36,7 +37,7 @@ public class DoorLControl : MonoBehaviour
 
     void Update()
     {
-        doorL1Nob com = nob.GetComponent<doorL1Nob>();
+        com = nob.GetComponent<doorL1Nob>();
 
         // 处理门的开关逻辑  
         if (!isDoorMoving)
@@ -204,6 +205,32 @@ public class DoorLControl : MonoBehaviour
         // 确保完成后设置到目标位置  
         transform.localPosition = targetPos;
         transform.localRotation = targetRot;
+    }
+
+    public void Open()
+    {
+        if (!isDoorOpened)
+        {
+            StartCoroutine(OpenDoorCoroutine());
+
+            if (com != null)
+            {
+                com.OpenDoor();
+            }
+        }
+    }
+
+    public void Close()
+    {
+        if (isDoorOpened)
+        {
+            StartCoroutine(CloseDoorCoroutine());
+
+            if (com != null)
+            {
+                com.CloseDoor();
+            }
+        }
     }
 
     private Camera GetActiveCamera()

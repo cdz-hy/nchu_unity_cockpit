@@ -67,4 +67,16 @@ public class Gear_1 : MonoBehaviour
     {
         OnMouseDown();
     }
+
+    public void Up()
+    {
+        isKeyPressed = 1;
+        OnMouseDown();
+    }
+
+    public void Down()
+    {
+        isKeyPressed = 2;
+        OnMouseDown();
+    }
 }

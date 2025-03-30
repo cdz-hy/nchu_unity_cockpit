@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorR1Mcode : MonoBehaviour
+public class DoorR1Mcode : MonoBehaviour, VoiceCommand.DoorControll
 {
     private Vector3 initialPos;
     private Quaternion initialRotation;
@@ -86,5 +86,15 @@ public class DoorR1Mcode : MonoBehaviour
         {
             Cursor.SetCursor(handCursor, Vector2.zero, CursorMode.Auto);
         }
+    }
+
+    public void Open()
+    {
+        StartCoroutine(MoveDoor(initialRotation, targetRotation)); // 旋转到目标位置
+    }
+
+    public void Close()
+    {
+        StartCoroutine(MoveDoor(targetRotation, initialRotation)); // 返回到初始位置  
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CockpitDoor_Controller : MonoBehaviour
+public class CockpitDoor_Controller : MonoBehaviour, VoiceCommand.DoorControll
 {
     public float targetRotationY = 0f;  // 目标Y旋转角度（门关闭的位置）
     public float rotationSpeed = 50f;  // 旋转速度
@@ -110,6 +110,18 @@ public class CockpitDoor_Controller : MonoBehaviour
             return false;  // 鼠标不在BoxCollider区域内
         }
         return false;
+    }
+
+    public void Open()
+    {
+        targetRotationY = 80.463f;
+        shouldRotate = true;
+    }
+
+    public void Close()
+    {
+        targetRotationY = 0f;
+        shouldRotate = true;
     }
 
     private Camera GetActiveCamera()
