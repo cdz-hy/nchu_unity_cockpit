@@ -1,146 +1,737 @@
+// using System;
+// using UnityEngine;
+
+// public class JoystickController : MonoBehaviour
+// {
+//     public Transform steeringWheel1; // ?????????? Transform
+//     public Transform steeringWheel2; // ?????????? Transform
+//     public Transform rotatingObject; // ???????? Transform
+//     public Camera pilotCamera; // ??????????????
+//     public MeshCollider meshCollider; // ????????
+//     public float currentStickAngle = 0; // ???????????
+//     public float currentWheelAngle = 0; // ????????????
+//     public float stickRotation = 0; // ??????????
+//     public float wheelRotation = 0; // ???????????
+//     public float stickRotationSpeed = 0.1f; // ???????????
+//     public float wheelRotationSpeed = 0.5f; // ????????????
+//     public float maxStickAngle = 10f; // ??????????????
+//     public float maxWheelAngle = 110f; // ???????????????
+//     public float maxObjectRotationAngle = 90f; // ????????????????
+//     public float maxRotationSpeed = 40f; // ????????????????
+//     public MeshCollider[] colliders; // ???????Mesh Collider???  
+
+//     private Vector3 initialMousePosition;
+//     private bool isDragging = false;
+
+//     public Texture2D handCursor;    // ???????????  
+//     public Texture2D clickCursor;   // ????????  
+//     public Texture2D defaultCursor; // ?????  
+
+//     // ??????????????????????????
+//     public static event Action<float[]> joystickControllerRotation;
+
+//     void Start()
+//     {
+//         colliders = GetComponentsInChildren<MeshCollider>();
+//     }
+
+//     void Update()
+//     {
+//         if (GetActiveCamera() == pilotCamera && Input.GetMouseButtonDown(0))
+//         {
+//             Ray ray = pilotCamera.ScreenPointToRay(Input.mousePosition);
+//             if (meshCollider.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+//             {
+//                 isDragging = true; // ?????????????
+//                 initialMousePosition = Input.mousePosition; // ?????????????
+//                 Cursor.SetCursor(clickCursor, Vector2.zero, CursorMode.Auto);  // ?????????? 
+//             }
+            
+//         }
+
+//         if (GetActiveCamera() == pilotCamera && Input.GetMouseButtonUp(0))
+//         {
+//             Ray ray = pilotCamera.ScreenPointToRay(Input.mousePosition);
+//             if (meshCollider.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+//             {
+//                 Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);  // ?????????? 
+//             }
+//             isDragging = false;
+//             currentStickAngle = stickRotation;
+//             currentWheelAngle = wheelRotation;
+//         }
+
+//         if (isDragging)
+//         {
+//             Vector3 mouseDelta = Input.mousePosition - initialMousePosition;
+//             stickRotation = Mathf.Clamp(mouseDelta.y * stickRotationSpeed + currentStickAngle, -maxStickAngle, maxStickAngle);
+//             wheelRotation = Mathf.Clamp(mouseDelta.x * wheelRotationSpeed + currentWheelAngle, -maxWheelAngle, maxWheelAngle);
+
+//             // ????????
+//             transform.localRotation = Quaternion.Euler(-stickRotation, 0, 0);
+
+//             // ?????????
+//             steeringWheel1.localRotation = Quaternion.Euler(0, 0, wheelRotation);
+//             steeringWheel2.localRotation = Quaternion.Euler(0, 0, wheelRotation);
+
+//             // ?????????????
+//             float objectRotation = (wheelRotation / maxWheelAngle) * maxObjectRotationAngle;
+//             Quaternion targetRotation = Quaternion.Euler(objectRotation, rotatingObject.localRotation.eulerAngles.y, rotatingObject.localRotation.eulerAngles.z);
+
+//             // ??? RotateTowards ?????????????
+//             rotatingObject.localRotation = Quaternion.RotateTowards(rotatingObject.localRotation, targetRotation, maxRotationSpeed * Time.deltaTime);
+
+
+//             // ?????????????????????
+//             float[] controllerDatas = { - stickRotation / maxStickAngle, wheelRotation / maxWheelAngle};
+//             joystickControllerRotation?.Invoke(controllerDatas);
+
+
+//         }
+//     }
+
+//     // ??????????????  
+//     private void HandleMouseInteraction()
+//     {
+//         // ?????????????????????????
+//         bool mouseOver = false;
+
+//         foreach (var collider in colliders)
+//         {
+//             if (IsMouseOverMeshCollider(collider))
+//             {
+//                 mouseOver = true;
+//                 // ?????????????????????
+//                 if (!collider.gameObject.GetComponent<CursorChange>().isMouseOver)
+//                 {
+//                     collider.gameObject.GetComponent<CursorChange>().isMouseOver = true;
+//                     collider.gameObject.SendMessage("OnMouseEnter");
+//                 }
+//                 break; // ?????????????????????
+//             }
+//         }
+
+//         // ??????????????????????????
+//         if (!mouseOver)
+//         {
+//             foreach (var collider in colliders)
+//             {
+//                 if (collider.gameObject.GetComponent<CursorChange>().isMouseOver)
+//                 {
+//                     collider.gameObject.GetComponent<CursorChange>().isMouseOver = false;
+//                     collider.gameObject.SendMessage("OnMouseExit");
+//                 }
+//             }
+//         }
+//     }
+ 
+//     // ???????????MeshCollider??????  
+//     private bool IsMouseOverMeshCollider(MeshCollider collider)
+//     {
+//         Ray ray = GetActiveCamera().ScreenPointToRay(Input.mousePosition);
+//         return collider.Raycast(ray, out _, Mathf.Infinity); // ???????????MeshCollider??????  
+//     }
+
+//     private Camera GetActiveCamera()
+//     {
+//         foreach (Camera cam in Camera.allCameras)
+//         {
+//             if (cam.gameObject.activeInHierarchy)
+//             {
+//                 return cam; // ??????????????????
+//             }
+//         }
+//         return null; // ?????????????????????? null
+//     }
+// }
+
+
+// using System;
+// using UnityEngine;
+
+// // ???????????????????????
+// [DefaultExecutionOrder(200)]
+// public class JoystickController : MonoBehaviour
+// {
+//     public Transform steeringWheel1; // ?????????? Transform
+//     public Transform steeringWheel2; // ?????????? Transform
+//     public Transform rotatingObject; // ???????? Transform
+//     public Camera pilotCamera;       // ?????????????????????
+//     public MeshCollider meshCollider; // ?????? MeshCollider????????????
+//     public MeshCollider[] colliders;  // ?????????????? MeshCollider ???
+
+//     public float currentStickAngle = 0f;   // ??????????
+//     public float currentWheelAngle = 0f;   // ???????????
+//     public float stickRotation = 0f;       // ???????????
+//     public float wheelRotation = 0f;       // ????????????
+
+//     public float stickRotationSpeed = 0.1f;    // ??????????????
+//     public float wheelRotationSpeed = 0.5f;    // ???????????????
+//     public float maxStickAngle = 10f;         // ??????????????
+//     public float maxWheelAngle = 110f;        // ???????????????
+//     public float maxObjectRotationAngle = 90f; // ????????????????
+//     public float maxRotationSpeed = 40f;       // ?????????????????
+
+//     public Texture2D handCursor;    // ??????????
+//     public Texture2D clickCursor;   // ????????????
+//     public Texture2D defaultCursor; // ?????????
+
+//     private Vector3 initialMousePosition; // ????????????
+//     private bool isDragging = false;      // ??????????
+
+//     private Vector3 originalLocalPosition; // ????????????
+//     private Quaternion originalLocalRotation; // ???????????
+
+//     // ????????????????????????????????????
+//     public static event Action<float[]> joystickControllerRotation;
+
+//     void Start()
+//     {
+//         colliders = GetComponentsInChildren<MeshCollider>();
+//         // ?????????????
+//         originalLocalPosition = transform.localPosition;
+//         originalLocalRotation = transform.localRotation;
+//     }
+
+//     void Update()
+//     {
+//         // ???????????????????????????
+//         if (GetActiveCamera() == pilotCamera && Input.GetMouseButtonDown(0))
+//         {
+//             Ray ray = pilotCamera.ScreenPointToRay(Input.mousePosition);
+//             if (meshCollider.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+//             {
+//                 isDragging = true;
+//                 initialMousePosition = Input.mousePosition;
+//                 Cursor.SetCursor(clickCursor, Vector2.zero, CursorMode.Auto);
+//             }
+//         }
+
+//         // ??????????????????????
+//         if (GetActiveCamera() == pilotCamera && Input.GetMouseButtonUp(0))
+//         {
+//             Ray ray = pilotCamera.ScreenPointToRay(Input.mousePosition);
+//             if (meshCollider.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+//                 Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+
+//             isDragging = false;
+//             currentStickAngle = stickRotation;
+//             currentWheelAngle = wheelRotation;
+//         }
+
+//         // ?????????????????????
+//         if (isDragging)
+//         {
+//             Vector3 mouseDelta = Input.mousePosition - initialMousePosition;
+//             stickRotation = Mathf.Clamp(currentStickAngle + mouseDelta.y * stickRotationSpeed,
+//                                         -maxStickAngle, maxStickAngle);
+//             wheelRotation = Mathf.Clamp(currentWheelAngle + mouseDelta.x * wheelRotationSpeed,
+//                                         -maxWheelAngle, maxWheelAngle);
+
+//             // ???????
+//             float[] controllerDatas = { -stickRotation / maxStickAngle, wheelRotation / maxWheelAngle };
+//             joystickControllerRotation?.Invoke(controllerDatas);
+//         }
+//     }
+
+//     void LateUpdate()
+//     {
+//         // ??????????????????????????????????
+//         transform.localPosition = originalLocalPosition;
+//         // ?????????????????????????????
+//         transform.localRotation = originalLocalRotation * Quaternion.Euler(-stickRotation, 0f, 0f);
+
+//         // ??????????????
+//         steeringWheel1.localRotation = Quaternion.Euler(0f, 0f, wheelRotation);
+//         steeringWheel2.localRotation = Quaternion.Euler(0f, 0f, wheelRotation);
+
+//         // ?????????????
+//         float objectRotation = (wheelRotation / maxWheelAngle) * maxObjectRotationAngle;
+//         Quaternion target = Quaternion.Euler(objectRotation,
+//                                              rotatingObject.localRotation.eulerAngles.y,
+//                                              rotatingObject.localRotation.eulerAngles.z);
+//         rotatingObject.localRotation = Quaternion.RotateTowards(
+//             rotatingObject.localRotation,
+//             target,
+//             maxRotationSpeed * Time.deltaTime);
+//     }
+
+//     // ????????????????
+//     private Camera GetActiveCamera()
+//     {
+//         foreach (Camera cam in Camera.allCameras)
+//             if (cam.gameObject.activeInHierarchy)
+//                 return cam;
+//         return null;
+//     }
+
+//     // ??????????????????? MeshCollider ?????????????
+//     private bool IsMouseOverMeshCollider(MeshCollider collider)
+//     {
+//         Ray ray = GetActiveCamera().ScreenPointToRay(Input.mousePosition);
+//         return collider.Raycast(ray, out _, Mathf.Infinity);
+//     }
+// }
+
+
+
+
+// using System;
+// using UnityEngine;
+
+// public class JoystickController : MonoBehaviour
+// {
+//     public Transform steeringWheel1;       // ?????????? Transform
+//     public Transform steeringWheel2;       // ?????????? Transform
+//     public Transform rotatingObject;       // ???????? Transform
+//     public Camera pilotCamera;             // ??????????????
+//     public MeshCollider meshCollider;      // ?????? MeshCollider
+//     public MeshCollider[] colliders;       // ??????????? MeshCollider ???
+
+//     public Texture2D handCursor;           // ???????????
+//     public Texture2D clickCursor;          // ????????
+//     public Texture2D defaultCursor;        // ?????
+
+//     [Header("?????? & ????")]
+//     public float stickRotationSpeed = 0.1f;     // ????????????????????
+//     public float wheelRotationSpeed = 0.5f;     // ?????????????????????
+//     public float maxStickAngle = 10f;           // ??????????????
+//     public float maxWheelAngle = 110f;          // ???????????????
+//     public float maxObjectRotationAngle = 90f;  // ????????????????
+//     public float maxRotationSpeed = 40f;        // ????????????????
+
+//     private float currentStickAngle = 0f;       // ??????????
+//     private float currentWheelAngle = 0f;       // ???????????
+//     private bool isDragging = false;
+
+//     // ?????????????
+//     private Vector3 initialMouseScreenPos;
+//     private float initialStickAngle;
+//     private float initialWheelAngle;
+
+//     // ????????????????????????
+//     public static event Action<float[]> joystickControllerRotation;
+
+//     void Start()
+//     {
+//         colliders = GetComponentsInChildren<MeshCollider>();
+//     }
+
+//     void Update()
+//     {
+//         Camera cam = GetActiveCamera();
+//         if (cam != pilotCamera) return;
+
+//         // ??????????????????????????
+//         if (Input.GetMouseButtonDown(0))
+//         {
+//             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+//             if (HitJoystick(ray))
+//             {
+//                 isDragging = true;
+//                 initialMouseScreenPos = Input.mousePosition;
+//                 initialStickAngle = currentStickAngle;
+//                 initialWheelAngle = currentWheelAngle;
+//                 Cursor.SetCursor(clickCursor, Vector2.zero, CursorMode.Auto);
+//             }
+//         }
+
+//         // ????????????????????
+//         if (Input.GetMouseButtonUp(0) && isDragging)
+//         {
+//             isDragging = false;
+//             float x = transform.rotation.eulerAngles.x;
+//             currentStickAngle = x > 180f ? x - 360f : x;
+//             float z = steeringWheel1.rotation.eulerAngles.z;
+//             currentWheelAngle = z > 180f ? z - 360f : z;
+//             Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+//         }
+
+//         // ???????????????????????
+//         if (isDragging)
+//         {
+//             Vector3 delta = Input.mousePosition - initialMouseScreenPos;
+//             float stickAngle = Mathf.Clamp(initialStickAngle + delta.y * stickRotationSpeed, -maxStickAngle, maxStickAngle);
+//             float wheelAngle = Mathf.Clamp(initialWheelAngle + delta.x * wheelRotationSpeed, -maxWheelAngle, maxWheelAngle);
+
+//             // ?????????
+//             Quaternion parentRot = transform.parent.rotation;
+//             transform.rotation = parentRot * Quaternion.Euler(-stickAngle, 0f, 0f);
+//             steeringWheel1.rotation = parentRot * Quaternion.Euler(0f, 0f, wheelAngle);
+//             steeringWheel2.rotation = steeringWheel1.rotation;
+
+//             currentStickAngle = stickAngle;
+//             currentWheelAngle = wheelAngle;
+
+//             // ?????????????????
+//             float objTarget = (wheelAngle / maxWheelAngle) * maxObjectRotationAngle;
+//             Quaternion tgt = Quaternion.Euler(objTarget, rotatingObject.rotation.eulerAngles.y, rotatingObject.rotation.eulerAngles.z);
+//             rotatingObject.rotation = Quaternion.RotateTowards(rotatingObject.rotation, tgt, maxRotationSpeed * Time.deltaTime);
+
+//             // ???????????
+//             float[] data = { -stickAngle / maxStickAngle, wheelAngle / maxWheelAngle };
+//             joystickControllerRotation?.Invoke(data);
+//         }
+
+//         // ????????????
+//         HandleMouseInteraction(cam);
+//     }
+
+//     // ??? Physics.Raycast ??? Collider.Raycast
+//     private bool HitJoystick(Ray ray)
+//     {
+//         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+//         {
+//             return hit.collider == meshCollider;
+//         }
+//         return false;
+//     }
+
+//     // ??????/??????????
+//     private void HandleMouseInteraction(Camera cam)
+//     {
+//         bool over = false;
+//         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+//         foreach (var col in colliders)
+//         {
+//             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity) && hit.collider == col)
+//             {
+//                 var cc = col.gameObject.GetComponent<CursorChange>();
+//                 if (!cc.isMouseOver)
+//                 {
+//                     cc.isMouseOver = true;
+//                     col.gameObject.SendMessage("OnMouseEnter");
+//                 }
+//                 over = true;
+//                 break;
+//             }
+//         }
+//         if (!over)
+//         {
+//             foreach (var col in colliders)
+//             {
+//                 var cc = col.gameObject.GetComponent<CursorChange>();
+//                 if (cc.isMouseOver)
+//                 {
+//                     cc.isMouseOver = false;
+//                     col.gameObject.SendMessage("OnMouseExit");
+//                 }
+//             }
+//         }
+//     }
+
+//     // ????????????
+//     private Camera GetActiveCamera()
+//     {
+//         foreach (var cam in Camera.allCameras)
+//             if (cam.gameObject.activeInHierarchy)
+//                 return cam;
+//         return null;
+//     }
+// }
+
+// using System;
+// using UnityEngine;
+
+// public class JoystickController : MonoBehaviour
+// {
+//     [Header("References")]
+//     public Transform steeringWheel1;     // ????????? Transform
+//     public Transform steeringWheel2;     // ????????? Transform
+//     public Transform rotatingObject;     // ??????? Transform
+//     public Camera pilotCamera;           // ?????????
+//     public MeshCollider meshCollider;    // ????????????????
+//     public MeshCollider[] colliders;     // ?????????? MeshCollider
+
+//     [Header("Cursor Textures")]
+//     public Texture2D clickCursor;        // ????????
+//     public Texture2D defaultCursor;      // ?????
+
+//     [Header("Sensitivity & Limits")]
+//     public float stickRotationSpeed = 0.1f;   // ?????????????? 
+//     public float wheelRotationSpeed = 0.5f;   // ???????????????
+//     public float maxStickAngle = 10f;         // ?????????
+//     public float maxWheelAngle = 110f;        // ???????
+//     public float maxObjectRotationAngle = 90f;// ???????????????
+//     public float maxRotationSpeed = 40f;      // ??????????????????
+
+//     // ?????
+//     private bool isDragging = false;
+//     private Vector3 initialMousePos;
+//     private float initialStickAngle;
+//     private float initialWheelAngle;
+
+//     // ??????????????
+//     public static event Action<float[]> joystickControllerRotation;
+
+//     void Start()
+//     {
+//         // ??????????????????
+//         colliders = GetComponentsInChildren<MeshCollider>();
+//     }
+
+//     void Update()
+//     {
+//         if (pilotCamera == null) return;
+//         Camera cam = pilotCamera;
+
+//         // ????????????????????????
+//         if (Input.GetMouseButtonDown(0))
+//         {
+//             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+//             if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity) && hit.collider == meshCollider)
+//             {
+//                 isDragging = true;
+//                 initialMousePos = Input.mousePosition;  // ????????????? 
+//                 // ???????????????
+//                 initialStickAngle = GetWorldStickAngle();
+//                 initialWheelAngle = GetWorldWheelAngle();
+//                 Cursor.SetCursor(clickCursor, Vector2.zero, CursorMode.Auto);
+//             }
+//         }
+
+//         // ?????????
+//         if (Input.GetMouseButtonUp(0) && isDragging)
+//         {
+//             isDragging = false;
+//             Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+//         }
+
+//         // ???????????????????????????
+//         if (isDragging)
+//         {
+//             Vector2 delta = (Vector2)Input.mousePosition - (Vector2)initialMousePos;
+//             float stickAngle = Mathf.Clamp(initialStickAngle + delta.y * stickRotationSpeed, -maxStickAngle, maxStickAngle);
+//             float wheelAngle = Mathf.Clamp(initialWheelAngle + delta.x * wheelRotationSpeed, -maxWheelAngle, maxWheelAngle);
+
+//             // ?????????????
+//             Quaternion parentRot = transform.parent ? transform.parent.rotation : Quaternion.identity;
+//             // ?????????????????? :contentReference[oaicite:4]{index=4}
+//             transform.rotation = parentRot * Quaternion.Euler(-stickAngle, 0f, 0f);
+//             steeringWheel1.rotation = parentRot * Quaternion.Euler(0f, 0f, wheelAngle);
+//             steeringWheel2.rotation = steeringWheel1.rotation;
+
+//             // ??????????????
+//             float objTarget = (wheelAngle / maxWheelAngle) * maxObjectRotationAngle;
+//             Quaternion tgt = Quaternion.Euler(objTarget, rotatingObject.rotation.eulerAngles.y, rotatingObject.rotation.eulerAngles.z);
+//             rotatingObject.rotation = Quaternion.RotateTowards(rotatingObject.rotation, tgt, maxRotationSpeed * Time.deltaTime);
+
+//             // ????????????
+//             joystickControllerRotation?.Invoke(new float[] { -stickAngle / maxStickAngle, wheelAngle / maxWheelAngle });
+//         }
+
+//         // ?????????????????
+//         HandleMouseHover(cam);
+//     }
+
+//     // ??????????????????
+//     private float GetWorldStickAngle()
+//     {
+//         float x = transform.rotation.eulerAngles.x;
+//         return x > 180f ? x - 360f : x;
+//     }
+
+//     // ??????????????????
+//     private float GetWorldWheelAngle()
+//     {
+//         float z = steeringWheel1.rotation.eulerAngles.z;
+//         return z > 180f ? z - 360f : z;
+//     }
+
+//     // ???????????? Physics.Raycast ????????????? :contentReference[oaicite:5]{index=5}
+//     private void HandleMouseHover(Camera cam)
+//     {
+//         Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+//         bool over = false;
+//         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+//         {
+//             foreach (var col in colliders)
+//             {
+//                 if (hit.collider == col)
+//                 {
+//                     var cc = col.GetComponent<CursorChange>();
+//                     if (!cc.isMouseOver)
+//                     {
+//                         cc.isMouseOver = true;
+//                         col.SendMessage("OnMouseEnter");
+//                     }
+//                     over = true;
+//                     break;
+//                 }
+//             }
+//         }
+//         if (!over)
+//         {
+//             foreach (var col in colliders)
+//             {
+//                 var cc = col.GetComponent<CursorChange>();
+//                 if (cc.isMouseOver)
+//                 {
+//                     cc.isMouseOver = false;
+//                     col.SendMessage("OnMouseExit");
+//                 }
+//             }
+//         }
+//     }
+// }
+
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class JoystickController : MonoBehaviour
 {
-    public Transform steeringWheel1; // Ö÷¼İ·½ÏòÅÌµÄ Transform
-    public Transform steeringWheel2; // ¸±¼İ·½ÏòÅÌµÄ Transform
-    public Transform rotatingObject; // ÅäÆ½ÊÖÂÖµÄ Transform
-    public Camera pilotCamera; // ×Ô¶¨ÒåÉãÏñ»úÒıÓÃ
-    public MeshCollider meshCollider; // »ñÈ¡Åö×²Ïä
-    public float currentStickAngle = 0; // ÏÖÔÚ²Ù×İ¸ËµÄ½Ç¶È
-    public float currentWheelAngle = 0; // ÏÖÔÚ·½ÏòÅÌµÄ½Ç¶È
-    public float stickRotation = 0; // ²Ù×İ¸ËĞı×ª½Ç
-    public float wheelRotation = 0; // ·½ÏòÅÌĞı×ª½Ç
-    public float stickRotationSpeed = 0.1f; // ²Ù×İ¸ËĞı×ªËÙ¶È
-    public float wheelRotationSpeed = 0.5f; // ·½ÏòÅÌĞı×ªËÙ¶È
-    public float maxStickAngle = 10f; // ²Ù×İ¸Ë×î´óĞı×ª½Ç¶È
-    public float maxWheelAngle = 110f; // ·½ÏòÅÌ×î´óĞı×ª½Ç¶È
-    public float maxObjectRotationAngle = 90f; // ÅäÆ½ÊÖÂÖ×î´óĞı×ª½Ç¶È
-    public float maxRotationSpeed = 40f; // ÅäÆ½ÊÖÂÖ×î´óĞı×ªËÙ¶È
-    public MeshCollider[] colliders; // ´æ´¢ËùÓĞMesh Collider×é¼ş  
-
+    public Transform steeringWheel1;
+    public Transform steeringWheel2;
+    public Transform rotatingObject;
+    public Camera pilotCamera;
+    public MeshCollider meshCollider;
+    
+    public float currentStickAngle = 0;
+    public float currentWheelAngle = 0;
+    
+    public float stickRotation = 0;
+    public float wheelRotation = 0;
+    
+    public float stickRotationSpeed = 0.1f;
+    public float wheelRotationSpeed = 0.5f;
+    
+    public float maxStickAngle = 10f;
+    public float maxWheelAngle = 110f;
+    
+    public float maxObjectRotationAngle = 90f;
+    public float maxRotationSpeed = 40f;
+    
     private Vector3 initialMousePosition;
     private bool isDragging = false;
-
-    public Texture2D handCursor;    // ×Ô¶¨ÒåÊÖĞÍ¹â±ê  
-    public Texture2D clickCursor;   // µã»÷Ê±µÄ¹â±ê  
-    public Texture2D defaultCursor; // Ä¬ÈÏ¹â±ê  
-
-    // ¶¨ÒåÒ»¸öÊÂ¼ş£¬µ±Êı¾İ¸üĞÂÊ±´¥·¢
+    
+    public Texture2D handCursor;
+    public Texture2D clickCursor;
+    public Texture2D defaultCursor;
+    
     public static event Action<float[]> joystickControllerRotation;
-
+    
+    // ç”¨äºå°„çº¿æ£€æµ‹çš„å±‚æ©ç 
+    private LayerMask m_LayerMask;
+    
     void Start()
     {
-        colliders = GetComponentsInChildren<MeshCollider>();
+        // å¯ç”¨ç‰©ç†è‡ªåŠ¨åŒæ­¥
+        Physics.autoSyncTransforms = true;
+        
+        // è§£é™¤å…‰æ ‡é”å®š
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        
+        // è®¾ç½®å°„çº¿æ£€æµ‹å±‚æ©ç ï¼ˆæ’é™¤UIå±‚ï¼‰
+        m_LayerMask = LayerMask.GetMask("Default"); // æ ¹æ®å®é™…å›¾å±‚åç§°è°ƒæ•´
+        
+        // å­˜å‚¨åˆå§‹é¼ æ ‡ä½ç½®
+        initialMousePosition = Input.mousePosition;
     }
-
+    
     void Update()
     {
+        // æ£€æŸ¥å½“å‰æ´»åŠ¨æ‘„åƒæœºæ˜¯å¦ä¸ºpilotCamera
         if (GetActiveCamera() == pilotCamera && Input.GetMouseButtonDown(0))
         {
-            Ray ray = pilotCamera.ScreenPointToRay(Input.mousePosition);
-            if (meshCollider.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+            // æ£€æŸ¥é¼ æ ‡æ˜¯å¦åœ¨UIä¸Š
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             {
-                isDragging = true; // Ö±½ÓÉèÖÃÎªÍÏ¶¯×´Ì¬
-                initialMousePosition = Input.mousePosition; // ¼ÇÂ¼³õÊ¼Êó±êÎ»ÖÃ
-                Cursor.SetCursor(clickCursor, Vector2.zero, CursorMode.Auto);  // Ê¹ÓÃµã»÷Ê±µÄ¹â±ê 
+                return;
             }
             
-        }
-
-        if (GetActiveCamera() == pilotCamera && Input.GetMouseButtonUp(0))
-        {
+            // å‘å°„å°„çº¿æ£€æµ‹ç¢°æ’
             Ray ray = pilotCamera.ScreenPointToRay(Input.mousePosition);
             if (meshCollider.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
             {
-                Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);  // Ê¹ÓÃµã»÷Ê±µÄ¹â±ê 
+                isDragging = true;
+                initialMousePosition = Input.mousePosition;
+                Cursor.SetCursor(clickCursor, Vector2.zero, CursorMode.Auto);
             }
+        }
+        
+        if (GetActiveCamera() == pilotCamera && Input.GetMouseButtonUp(0))
+        {
             isDragging = false;
             currentStickAngle = stickRotation;
             currentWheelAngle = wheelRotation;
+            // æ£€æŸ¥æ˜¯å¦åœ¨UIä¸Šé‡Šæ”¾
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
+            // æ£€æµ‹é‡Šæ”¾æ—¶çš„ç¢°æ’
+            Ray ray = pilotCamera.ScreenPointToRay(Input.mousePosition);
+            if (meshCollider.Raycast(ray, out RaycastHit hit, Mathf.Infinity))
+            {
+                Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+            }
+            else
+            {
+                // å¦‚æœä¸åœ¨ä»»ä½•ç¢°æ’ä½“ä¸Šï¼Œæ¢å¤é»˜è®¤å…‰æ ‡
+                Cursor.SetCursor(defaultCursor, Vector2.zero, CursorMode.Auto);
+            }
         }
-
+        
         if (isDragging)
         {
+            // è®¡ç®—é¼ æ ‡ä½ç§»
             Vector3 mouseDelta = Input.mousePosition - initialMousePosition;
-            stickRotation = Mathf.Clamp(mouseDelta.y * stickRotationSpeed + currentStickAngle, -maxStickAngle, maxStickAngle);
+            
+            // è®¡ç®—æ“çºµæ†æ—‹è½¬è§’åº¦
+            stickRotation = Mathf.Clamp(-mouseDelta.y * stickRotationSpeed + currentStickAngle, -maxStickAngle, maxStickAngle);
+            // è®¡ç®—æ–¹å‘ç›˜æ—‹è½¬è§’åº¦
             wheelRotation = Mathf.Clamp(mouseDelta.x * wheelRotationSpeed + currentWheelAngle, -maxWheelAngle, maxWheelAngle);
-
-            // Ğı×ª²Ù×İ¸Ë
-            transform.localRotation = Quaternion.Euler(-stickRotation, 0, 0);
-
-            // Ğı×ª·½ÏòÅÌ
+            
+            // æ—‹è½¬æ“çºµæ†
+            transform.localRotation = Quaternion.Euler(stickRotation, 0, 0);
+            
+            // æ—‹è½¬æ–¹å‘ç›˜
             steeringWheel1.localRotation = Quaternion.Euler(0, 0, wheelRotation);
             steeringWheel2.localRotation = Quaternion.Euler(0, 0, wheelRotation);
-
-            // ¼ÆËãÄ¿±êĞı×ª½Ç¶È
+            
+            // è®¡ç®—é…å¹³æ‰‹è½®ç›®æ ‡æ—‹è½¬è§’åº¦
             float objectRotation = (wheelRotation / maxWheelAngle) * maxObjectRotationAngle;
-            Quaternion targetRotation = Quaternion.Euler(objectRotation, rotatingObject.localRotation.eulerAngles.y, rotatingObject.localRotation.eulerAngles.z);
-
-            // Ê¹ÓÃ RotateTowards ÏŞÖÆ×î´óĞı×ªËÙ¶È
-            rotatingObject.localRotation = Quaternion.RotateTowards(rotatingObject.localRotation, targetRotation, maxRotationSpeed * Time.deltaTime);
-
-
-            // ´¥·¢ÊÂ¼ş£¬´«µİÊı¾İÊı×é
-            float[] controllerDatas = { - stickRotation / maxStickAngle, wheelRotation / maxWheelAngle};
+            Quaternion targetRotation = Quaternion.Euler(
+                objectRotation, 
+                rotatingObject.localRotation.eulerAngles.y, 
+                rotatingObject.localRotation.eulerAngles.z
+            );
+            
+            // é™åˆ¶æœ€å¤§æ—‹è½¬é€Ÿåº¦
+            rotatingObject.localRotation = Quaternion.RotateTowards(
+                rotatingObject.localRotation, 
+                targetRotation, 
+                maxRotationSpeed * Time.deltaTime
+            );
+            
+            // è§¦å‘äº‹ä»¶ï¼Œä¼ é€’æ•°æ®æ•°ç»„
+            float[] controllerDatas = {
+                -stickRotation / maxStickAngle, 
+                wheelRotation / maxWheelAngle
+            };
             joystickControllerRotation?.Invoke(controllerDatas);
-
-
         }
     }
-
-    // ´¦ÀíÊó±ê½»»¥µÄÂß¼­  
-    private void HandleMouseInteraction()
-    {
-        // ¼ì²âÊó±êÊÇ·ñÔÚ×ÓÎïÌåµÄÅö×²ÏäÉÏ
-        bool mouseOver = false;
-
-        foreach (var collider in colliders)
-        {
-            if (IsMouseOverMeshCollider(collider))
-            {
-                mouseOver = true;
-                // Èç¹ûÊó±ê½øÈë×ÓÎïÌåµÄÅö×²Ïä
-                if (!collider.gameObject.GetComponent<CursorChange>().isMouseOver)
-                {
-                    collider.gameObject.GetComponent<CursorChange>().isMouseOver = true;
-                    collider.gameObject.SendMessage("OnMouseEnter");
-                }
-                break; // ÕÒµ½Ò»¸öÅö×²Ïäºó¿ÉÒÔÍË³öÑ­»·
-            }
-        }
-
-        // Èç¹ûÊó±ê²»ÔÚÈÎºÎ×ÓÎïÌåµÄÅö×²ÏäÉÏ
-        if (!mouseOver)
-        {
-            foreach (var collider in colliders)
-            {
-                if (collider.gameObject.GetComponent<CursorChange>().isMouseOver)
-                {
-                    collider.gameObject.GetComponent<CursorChange>().isMouseOver = false;
-                    collider.gameObject.SendMessage("OnMouseExit");
-                }
-            }
-        }
-    }
- 
-    // ¼ì²éÊó±êÊÇ·ñÔÚMeshColliderÇøÓòÄÚ  
-    private bool IsMouseOverMeshCollider(MeshCollider collider)
+    
+    // æ£€æµ‹é¼ æ ‡æ˜¯å¦åœ¨æŒ‡å®šå±‚ä¸Šçš„ç¢°æ’ä½“ä¸Š
+    private bool IsMouseOverValidLayer(MeshCollider collider)
     {
         Ray ray = GetActiveCamera().ScreenPointToRay(Input.mousePosition);
-        return collider.Raycast(ray, out _, Mathf.Infinity); // ¼ì²éÊó±êÊÇ·ñÔÚMeshColliderÇøÓòÄÚ  
+        return collider.Raycast(ray, out RaycastHit hit, Mathf.Infinity) 
+            && (hit.collider.gameObject.layer & m_LayerMask) != 0;
     }
-
+    
     private Camera GetActiveCamera()
     {
         foreach (Camera cam in Camera.allCameras)
         {
             if (cam.gameObject.activeInHierarchy)
             {
-                return cam; // ·µ»ØµÚÒ»¸ö¼¤»îµÄÉãÏñ»ú
+                return cam;
             }
         }
-        return null; // Èç¹ûÃ»ÓĞ¼¤»îµÄÉãÏñ»ú£¬·µ»Ø null
+        return null;
     }
 }
