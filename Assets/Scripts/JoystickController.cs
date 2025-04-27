@@ -708,7 +708,7 @@ public class JoystickController : MonoBehaviour
             
             // 触发事件，传递数据数组
             float[] controllerDatas = {
-                -stickRotation / maxStickAngle, 
+                stickRotation / maxStickAngle, 
                 wheelRotation / maxWheelAngle
             };
             joystickControllerRotation?.Invoke(controllerDatas);
