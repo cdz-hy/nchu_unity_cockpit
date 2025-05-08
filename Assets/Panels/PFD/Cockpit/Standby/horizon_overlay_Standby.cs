@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class horizon_ : MonoBehaviour
 {
-    public float rotationSpeed = 360f; // Ã¿ï¿½ï¿½ï¿½ï¿½×ªï¿½Ä½Ç¶ï¿½  
+    public float rotationSpeed = 360f; // Ã¿ÃëÐý×ªµÄ½Ç¶È  
     public float pitch;
     private Vector3 initialPosition;
     private Quaternion initialRotation;
@@ -16,7 +16,7 @@ public class horizon_ : MonoBehaviour
     }
     void Update()
     {
-        pitch = DataCenter.Instance.pitchAngle;
+        //pitch = DataCenter.Instance.Pitch;
         Control(pitch);
     }
     void Control(float angle)
@@ -40,7 +40,7 @@ public class horizon_ : MonoBehaviour
             yield return null;
         }
 
-        // È·ï¿½ï¿½ï¿½ï¿½Éºï¿½ï¿½ï¿½ï¿½Ãµï¿½Ä¿ï¿½ï¿½Î»ï¿½ï¿½  
+        // È·±£Íê³ÉºóÉèÖÃµ½Ä¿±êÎ»ÖÃ  
         transform.localPosition = targetPos;
         transform.localRotation = targetRot;
     }

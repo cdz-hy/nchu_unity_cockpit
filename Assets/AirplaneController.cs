@@ -123,8 +123,8 @@ using UnityEngine;
 public class AirplaneController : MonoBehaviour
 {
     // 平滑参数
-    public float positionSmoothSpeed = 100f;  // 位置平滑速度 [[5]]
-    public float rotationSmoothSpeed = 100f;
+    public float positionSmoothSpeed = 10f;  // 位置平滑速度 [[5]]
+    public float rotationSmoothSpeed = 10f;
 
     // 地理参数
     private const float centerLat = 28.85125f;
@@ -184,53 +184,102 @@ public class AirplaneController : MonoBehaviour
         transform.position = new Vector3(x, y, z);
     }
 
+    // void Update()
+    // {
+    //     if (DataCenter.Instance == null || (DataCenter.Instance.latitude == 0 && DataCenter.Instance.longitude == 0))
+    //         return;
+
+    //     // ====== 平滑位置更新 ======
+    //     float currentLat = DataCenter.Instance.latitude;
+    //     float currentLon = DataCenter.Instance.longitude;
+    //     float altitudeFeet = DataCenter.Instance.altitude;
+
+    //     float deltaLat = currentLat - centerLat;
+    //     float deltaLon = currentLon - centerLon;
+    //     float x = -deltaLon * metersPerDegreeLon;
+    //     float z = -deltaLat * metersPerDegreeLat;
+    //     float y = (altitudeFeet - initialAltitude) * feetToMeters;
+    //     targetPosition = new Vector3(x, y, z);
+
+    //     // 如果 x、y 或 z 方向变化过大（大于100单位），直接跳转到目标位置
+    //     if (Mathf.Abs(targetPosition.x - transform.position.x) > 1000f ||
+    //         Mathf.Abs(targetPosition.z - transform.position.z) > 1000f ||
+    //         Mathf.Abs(targetPosition.y - transform.position.y) > 1000f)
+    //     {
+    //         transform.position = targetPosition;
+    //     }
+    //     else
+    //     {
+    //         // 使用 SmoothDamp 实现插值，平滑时间直接设置为一帧时间（Time.deltaTime）
+    //         transform.position = Vector3.SmoothDamp(
+    //             transform.position,
+    //             targetPosition,
+    //             ref velocity,
+    //             Time.deltaTime,
+    //             positionSmoothSpeed
+    //         );
+    //     }
+
+    //     // ====== 平滑旋转更新 ======
+    //     float pitch = DataCenter.Instance.pitchAngle;
+    //     float roll = DataCenter.Instance.rollAngle;
+    //     float yaw = DataCenter.Instance.rotationAngle;
+
+    //     Quaternion targetRotation = Quaternion.Euler(pitch, yaw, roll);
+    //     transform.rotation = Quaternion.Lerp(
+    //         transform.rotation,
+    //         targetRotation,
+    //         rotationSmoothSpeed * Time.deltaTime
+    //     );
+    // }
+
+
     void Update()
     {
-        if (DataCenter.Instance == null || (DataCenter.Instance.latitude == 0 && DataCenter.Instance.longitude == 0))
+        if (DataCenter.Instance == null || 
+            (DataCenter.Instance.latitude == 0 && DataCenter.Instance.longitude == 0))
             return;
 
-        // ====== 平滑位置更新 ======
-        float currentLat = DataCenter.Instance.latitude;
-        float currentLon = DataCenter.Instance.longitude;
-        float altitudeFeet = DataCenter.Instance.altitude;
-
-        float deltaLat = currentLat - centerLat;
-        float deltaLon = currentLon - centerLon;
+        // 计算 targetPosition（与你原来一致）
+        float deltaLat = DataCenter.Instance.latitude - centerLat;
+        float deltaLon = DataCenter.Instance.longitude - centerLon;
         float x = -deltaLon * metersPerDegreeLon;
         float z = -deltaLat * metersPerDegreeLat;
-        float y = (altitudeFeet - initialAltitude) * feetToMeters;
-        targetPosition = new Vector3(x, y, z);
+        float y = (DataCenter.Instance.altitude - initialAltitude) * feetToMeters;
+        Vector3 targetPosition = new Vector3(x, y, z);
 
-        // 如果 x、y 或 z 方向变化过大（大于100单位），直接跳转到目标位置
-        if (Mathf.Abs(targetPosition.x - transform.position.x) > 1000f ||
-            Mathf.Abs(targetPosition.z - transform.position.z) > 1000f ||
-            Mathf.Abs(targetPosition.y - transform.position.y) > 1000f)
+        // 平滑移动：SmoothDamp + 阈值判断
+        const float stopThreshold = 0.01f;
+        if ((transform.position - targetPosition).sqrMagnitude < stopThreshold * stopThreshold)
         {
             transform.position = targetPosition;
+            velocity = Vector3.zero;
         }
         else
         {
-            // 使用 SmoothDamp 实现插值，平滑时间直接设置为一帧时间（Time.deltaTime）
+            float smoothTime = 1f / positionSmoothSpeed;  // 0.1 秒 阻尼时间
             transform.position = Vector3.SmoothDamp(
                 transform.position,
                 targetPosition,
                 ref velocity,
-                Time.deltaTime,
-                positionSmoothSpeed
+                smoothTime,
+                Mathf.Infinity,
+                Time.deltaTime
             );
         }
 
-        // ====== 平滑旋转更新 ======
+        // 旋转部分可保留原 Lerp 写法
         float pitch = DataCenter.Instance.pitchAngle;
-        float roll = DataCenter.Instance.rollAngle;
-        float yaw = DataCenter.Instance.rotationAngle;
-
-        Quaternion targetRotation = Quaternion.Euler(pitch, yaw, roll);
+        float roll  = DataCenter.Instance.rollAngle;
+        float yaw   = DataCenter.Instance.rotationAngle;
+        Quaternion targetRot = Quaternion.Euler(pitch, yaw, roll);
         transform.rotation = Quaternion.Lerp(
             transform.rotation,
-            targetRotation,
+            targetRot,
             rotationSmoothSpeed * Time.deltaTime
         );
     }
+
+
 }
 

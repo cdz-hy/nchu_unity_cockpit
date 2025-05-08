@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class horizon_above_Standby : MonoBehaviour
 {
-    public float rotationSpeed = 360f; // Ã¿ï¿½ï¿½ï¿½ï¿½×ªï¿½Ä½Ç¶ï¿½  
+    public float rotationSpeed = 360f; // Ã¿ÃëÐý×ªµÄ½Ç¶È  
     public float roll;
     private Vector3 initialPosition;
     private Quaternion initialRotation;
@@ -17,9 +17,9 @@ public class horizon_above_Standby : MonoBehaviour
     }
     void Update()
     {
-        // ï¿½ï¿½ Z ï¿½ï¿½ï¿½ï¿½×ª  
+        // ÈÆ Z ÖáÐý×ª  
         Control(roll);
-        roll = DataCenter.Instance.rollAngle;
+        //roll = DataCenter.Instance.Roll;
     }
     void Control(float angle)
     {
@@ -41,7 +41,7 @@ public class horizon_above_Standby : MonoBehaviour
             yield return null;
         }
 
-        // È·ï¿½ï¿½ï¿½ï¿½Éºï¿½ï¿½ï¿½ï¿½Ãµï¿½Ä¿ï¿½ï¿½Î»ï¿½ï¿½  
+        // È·±£Íê³ÉºóÉèÖÃµ½Ä¿±êÎ»ÖÃ  
         transform.localPosition = targetPos;
         transform.localRotation = targetRot;
     }

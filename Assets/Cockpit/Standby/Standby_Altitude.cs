@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Standby_Airspeed : MonoBehaviour
+public class Standby_Altitude : MonoBehaviour
 {
     public float MoveSpeed = 360f; // 每秒旋转的角度  
-    public float airSpeed;
+    public float Altitude;
     private Vector3 initialPosition;
     private Quaternion initialRotation;
 
@@ -13,7 +13,6 @@ public class Standby_Airspeed : MonoBehaviour
     void Start()
     {
         //airSpeed = DataCenter.Instance.AirSpeed;
-        //airSpeed++;
         initialPosition = transform.localPosition;
         initialRotation = transform.localRotation;
     }
@@ -21,28 +20,18 @@ public class Standby_Airspeed : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Control(airSpeed);
+        //Data = DataCenter.Instance.Altitude;
+        //Altitude++;
+        //airSpeed = 60;
+        Control(Altitude);
         //绕 Z 轴旋转
-        if (airSpeed < 460 && airSpeed > 45)
-        {
-            Control(airSpeed);
-        }
-        else if (airSpeed > 460)
-        {
-            Control(460f);
-        }
-        else if (airSpeed < 45)
-        {
-            Control(45f);
-        }
-
+        Control(Altitude);
     }
 
-    void Control(float speed)
+    void Control(float height)
     {
-        speed -= 40f;
-        speed *= -0.00059f;
-        Vector3 targetPosition = initialPosition + new Vector3(0, speed, 0);
+        height *= -0.000059f;
+        Vector3 targetPosition = initialPosition + new Vector3(0, height, 0);
         StartCoroutine(Move(targetPosition, initialRotation));
     }
 
@@ -65,4 +54,3 @@ public class Standby_Airspeed : MonoBehaviour
         transform.localRotation = targetRot;
     }
 }
-
