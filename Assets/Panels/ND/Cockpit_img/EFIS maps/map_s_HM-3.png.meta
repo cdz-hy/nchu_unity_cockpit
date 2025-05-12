@@ -937,7 +937,7 @@ TextureImporter:
         width: 8
         height: 17
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -945,6 +945,27 @@ TextureImporter:
       bones: []
       spriteID: f9cab949efac8bf4eb88af47732f5179
       internalID: 1181590268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: map_s_HM-3_40
+      rect:
+        serializedVersion: 2
+        x: 470
+        y: 106
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad5e08baeaa08484c8a529eb99ce5b64
+      internalID: -395213159
       vertices: []
       indices: 
       edges: []
@@ -995,6 +1016,7 @@ TextureImporter:
       map_s_HM-3_38: -2089503751
       map_s_HM-3_39: 1181590268
       map_s_HM-3_4: -1191794125
+      map_s_HM-3_40: -395213159
       map_s_HM-3_5: 1479839955
       map_s_HM-3_6: 423589851
       map_s_HM-3_7: -1213170312
