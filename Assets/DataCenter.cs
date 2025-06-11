@@ -79,6 +79,15 @@ public class DataCenter : MonoBehaviour
     public float throttleLever1 { get; private set; }
     public float throttleLever2 { get; private set; }
     
+    //====== 座舱灯光信息 ======//
+    public float cockpitLight1 { get; private set; } = 0f; // 座舱灯光亮度值(0-1)
+    
+    // 灯光控制相关
+    [Header("座舱灯光控制")]
+    [SerializeField] private KeyCode increaseLightKey = KeyCode.L; // 增加灯光亮度的按键
+    [SerializeField] private KeyCode decreaseLightKey = KeyCode.K; // 减少灯光亮度的按键
+    [SerializeField] private float lightChangeSpeed = 0.5f; // 灯光变化速度
+    
 
     void Awake()
     {
@@ -152,6 +161,8 @@ public class DataCenter : MonoBehaviour
             throttleLever2 -= 0.01f;
         }
         
+        // 处理座舱灯光控制
+        HandleLightControl();
     }
 
 
@@ -162,6 +173,36 @@ public class DataCenter : MonoBehaviour
 
         //Debug.Log(pitchControl + " " + rollControl + " ");
     }
+
+
+    /// <summary>
+    /// 处理座舱灯光控制
+    /// </summary>
+    private void HandleLightControl()
+    {
+        // 按L键增加灯光亮度
+        if (Input.GetKey(increaseLightKey))
+        {
+            SetCockpitLight1(cockpitLight1 + lightChangeSpeed * Time.deltaTime);
+        }
+        
+        // 按K键减少灯光亮度
+        if (Input.GetKey(decreaseLightKey))
+        {
+            SetCockpitLight1(cockpitLight1 - lightChangeSpeed * Time.deltaTime);
+        }
+    }
+    
+    /// <summary>
+    /// 设置座舱灯光1的亮度值
+    /// </summary>
+    /// <param name="value">灯光亮度值(0-1)</param>
+    public void SetCockpitLight1(float value)
+    {
+        cockpitLight1 = Mathf.Clamp01(value);
+    }
+
+
 }
 
 

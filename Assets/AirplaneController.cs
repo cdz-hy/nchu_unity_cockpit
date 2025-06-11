@@ -365,8 +365,7 @@ public class AirplaneController : MonoBehaviour
         float x = -deltaLon * metersPerDegreeLon;
         float z = -deltaLat * metersPerDegreeLat; 
         float y = (DataCenter.Instance.altitude - initialAltitude) * feetToMeters;
-        Vector3 targetPosition = new Vector3(x%2000, y%2000, z%2000);
-        
+        Vector3 targetPosition = new Vector3(x, y, z);
 
         // 平滑移动
         const float stopThreshold = 0.01f;
@@ -377,7 +376,7 @@ public class AirplaneController : MonoBehaviour
         }
         else
         {
-            float smoothTime = 1f / positionSmoothSpeed;  // 0.1 秒 阻尼时间
+            float smoothTime = 30f / positionSmoothSpeed;  // 0.1 秒 阻尼时间
             transform.position = Vector3.SmoothDamp(
                 transform.position,
                 targetPosition,
