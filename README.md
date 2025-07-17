@@ -78,29 +78,29 @@
 <table>
 <tr>
 <td align="center">
-<video src="images/media8.mp4" controls width="300"></video><br>
+<img src="images/media8.gif" width="300"><br>
 <b>地面场景展示</b>
 </td>
 <td align="center">
-<video src="images/media9.mp4" controls width="300"></video><br>
+<img src="images/media9.gif" width="300"><br>
 <b>飞行、场景与粒子系统展示</b>
 </td>
 <td align="center">
-<video src="images/media4.mp4" controls width="300"></video><br>
+<img src="images/media4.gif" width="300"><br>
 <b>座舱交互与仪表盘展示</b>
 </td>
 </tr>
 <tr>
 <td align="center">
-<video src="images/media3.mp4" controls width="300"></video><br>
+<img src="images/media3.gif" width="300"><br>
 <b>外部机翼组件动画展示，襟翼扰流板等</b>
 </td>
 <td align="center">
-<video src="images/media11.mp4" controls width="300"></video><br>
+<img src="images/media11.gif" width="300"><br>
 <b>机身外部组件动画</b>
 </td>
 <td align="center">
-<video src="images/media10.mp4" controls width="300"></video><br>
+<img src="images/media10.gif" width="300"><br>
 <b>发动机启动</b>
 </td>
 </tr>
@@ -386,21 +386,3 @@ public static event Action<float[]> OnDataReceived;
 // 操纵杆输入事件
 public static event Action<float[]> joystickControllerRotation;
 ```
-
----
-
-## 致谢
-
-- **南昌航空大学软件学院** - 提供项目支持
-- **凌云班全体师生** - 指导与帮助
-- **X-Plane 开发团队** - 专业飞行模拟平台
-- **Unity Technologies** - 游戏引擎支持
-
----
-
-**南昌航空大学 · 软件学院 · 凌云班**
-
-<div align="center">
-<img src="images/image2.jpeg" width="60">
-</div>
-
